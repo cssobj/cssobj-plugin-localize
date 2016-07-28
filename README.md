@@ -1,5 +1,7 @@
 # cssobj-plugin-selector-localize
 
+[![Build Status](https://travis-ci.org/cssobj/cssobj-plugin-selector-localize.svg?branch=master)](https://travis-ci.org/cssobj/cssobj-plugin-selector-localize)
+
 Localize class names for cssobj.
 
 ## Install
@@ -17,7 +19,7 @@ var localize = require('cssobj-plugin-selector-localize')
 var loc = localize(prefix, localNames)
 ```
 
-### prefix
+#### - prefix
 
 - Type: `String`
 
@@ -27,7 +29,7 @@ If pass empty string `''`, will use `''` (empty prefix)
 
 If pass other falsy value, will use default.
 
-### localNames
+#### - localNames
 
 - Type: `Object`
 
@@ -41,7 +43,7 @@ Val is localized name.
 
 ## Usage
 
-### Localize
+#### - Localize
 
 ``` javascript
 var localize = require('cssobj-plugin-selector-localize')
@@ -55,11 +57,11 @@ ret.map('item')  // === _1hisnf23_item
 
 ```
 
-### Global
+#### - Global
 
 There's 2 way to make class **Global**
 
-#### 1. :global(classNames)
+##### 1. :global(classNames)
 
 Add **:global()** to wrap class names, to make them global.
 
@@ -70,7 +72,7 @@ var ret = cssobj({'body :global(.nav .item) .login': {color: 'red'}}, {
 // css is => body .nav .item ._1hisnf23_login {color: red;}
 ```
 
-#### 2. .!className
+##### 2. .!className
 
 Just add **!** in front of class name, if you want it global.
 
@@ -81,7 +83,7 @@ var ret = cssobj({'body .!nav .!item .login': {color: 'red'}}, {
 // css is => body .nav .item ._1hisnf23_login {color: red;}
 ```
 
-### Custom Prefix
+#### - Custom Prefix
 
 You can control the prefix:
 
@@ -93,7 +95,7 @@ var ret = cssobj({'body .nav .item .login': {color: 'red'}}, {
 ```
 
 
-### Custom Local Names
+#### - Custom Local Names
 
 You can control the map for each class name:
 
@@ -104,7 +106,7 @@ var ret = cssobj({'body .nav .!item .login': {color: 'red'}}, {
 // css is => body ._abc_ .!item ._1hisnf23_login {color: red;}
 ```
 
-### Get the class map
+#### - Get the class map
 
 ``` javascript
 var ret = cssobj({'body .nav .item .login': {color: 'red'}}, {
