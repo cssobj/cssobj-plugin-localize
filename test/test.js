@@ -135,4 +135,13 @@ describe('Test plugin selector localize', function() {
 
   })
 
+  it('should work right with repeated class', function() {
+    var loc = lib('_prefix_')
+    var result = {}
+
+    var ret = loc('body .nav .nav.nav', {}, result)
+    expect(ret).equal('body ._prefix_nav ._prefix_nav._prefix_nav')
+
+  })
+
 })

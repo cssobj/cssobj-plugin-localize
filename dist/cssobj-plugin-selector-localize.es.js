@@ -27,10 +27,15 @@ function cssobj_plugin_selector_localize(prefix, localNames) {
   }
 
   var map = function(name) {
-    return name in localNames ? localNames[name] : prefix + name
+    return name in localNames
+      ? localNames[name]
+      : prefix + name
   }
 
   return function localizeName (sel, node, result) {
+    // don't touch at rule's selText
+    // it's copied from parent, which already localized
+    if(node.at) return sel
     if(!result.map) result.map = map
     return sel.replace(reClass, replacer)
   }
