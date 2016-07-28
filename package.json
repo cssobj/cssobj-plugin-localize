@@ -1,0 +1,30 @@
+{
+  "name": "cssobj-plugin-selector-localize",
+  "version": "1.0.0",
+  "description": "Localize class name for cssobj",
+  "main": "dist/cssobj-plugin-selector-localize.cjs.js",
+  "jsnext:main": "dist/cssobj-plugin-selector-localize.es.js",
+  "scripts": {
+    "test": "mocha",
+    "report": "cd dist && gzip < cssobj-plugin-selector-localize.min.js > cssobj-plugin-selector-localize.min.gz && ls -lh && rm -f *.gz",
+    "make": "rollup -c && uglifyjs dist/cssobj-plugin-selector-localize.iife.js -cm -o dist/cssobj-plugin-selector-localize.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cssobj/cssobj-plugin-selector-localize.git"
+  },
+  "keywords": [
+    "cssobj",
+    "localize"
+  ],
+  "author": "James Yang <jamesyang999@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cssobj/cssobj-plugin-selector-localize/issues"
+  },
+  "homepage": "https://github.com/cssobj/cssobj-plugin-selector-localize#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}
