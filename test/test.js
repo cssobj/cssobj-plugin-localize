@@ -30,10 +30,10 @@ describe('Test plugin selector localize', function() {
     var ret = loc('body .nav .item', {}, result)
     expect(ret).match(/body ._custom_nav ._\w+\d_item/)
 
-    expect(result.map('.nav')).equal('._custom_nav')
+    expect(result.mapSel('.nav')).equal('._custom_nav')
 
-    expect(result.map('.item')).match(/\._\w+\d_item/)
-    expect(result.map('.item .nav')).match(/_\w+\d_item \._custom_nav/)
+    expect(result.mapSel('.item')).match(/\._\w+\d_item/)
+    expect(result.mapSel('.item .nav')).match(/_\w+\d_item \._custom_nav/)
 
   })
 
@@ -46,9 +46,9 @@ describe('Test plugin selector localize', function() {
 
     expect(ret).match(/body ._prefix_nav ._prefix_item/)
 
-    expect(result.map('.nav')).equal('._prefix_nav')
+    expect(result.mapSel('.nav')).equal('._prefix_nav')
 
-    expect(result.map('.item')).equal('._prefix_item')
+    expect(result.mapSel('.item')).equal('._prefix_item')
 
   })
 
@@ -60,7 +60,7 @@ describe('Test plugin selector localize', function() {
     var ret = loc('body .nav .item', {}, result)
     expect(ret).match(/body ._custom_nav ._prefix_item/)
 
-    expect(result.map('.nav.item')).equal('._custom_nav._prefix_item')
+    expect(result.mapSel('.nav.item')).equal('._custom_nav._prefix_item')
 
   })
 
@@ -74,9 +74,9 @@ describe('Test plugin selector localize', function() {
 
 
     // will return localized event there's not in string
-    expect(result.map('.xyz')).equal('._prefix_xyz')
+    expect(result.mapSel('.xyz')).equal('._prefix_xyz')
 
-    expect(result.map('.nav.xyz')).equal('._prefix_nav._prefix_xyz')
+    expect(result.mapSel('.nav.xyz')).equal('._prefix_nav._prefix_xyz')
 
   })
 
@@ -88,7 +88,7 @@ describe('Test plugin selector localize', function() {
     var ret = loc('body .nav .item', {}, result)
     expect(ret).match(/body .nav .item/)
 
-    expect(result.map('.xyz')).equal('.xyz')
+    expect(result.mapSel('.xyz')).equal('.xyz')
 
   })
 
@@ -115,7 +115,7 @@ describe('Test plugin selector localize', function() {
     var ret = loc('body:global( .nav .item).xyz', {}, result)
     expect(ret).equal('body .nav .item._prefix_xyz')
 
-    expect(result.map('body .nav :global(.xyz)')).equal('body ._prefix_nav .xyz')
+    expect(result.mapSel('body .nav :global(.xyz)')).equal('body ._prefix_nav .xyz')
 
   })
 
@@ -126,7 +126,7 @@ describe('Test plugin selector localize', function() {
     var ret = loc('body.!nav .!item .xyz', {}, result)
     expect(ret).equal('body.nav .item ._prefix_xyz')
 
-    expect(result.map('.nav.!item')).equal('._prefix_nav.item')
+    expect(result.mapSel('.nav.!item')).equal('._prefix_nav.item')
   })
 
   it('should work right with ! symbol and localNames', function() {
@@ -135,7 +135,7 @@ describe('Test plugin selector localize', function() {
 
     var ret = loc('body.!nav .!item .xyz', {}, result)
     expect(ret).equal('body.nav .item .abc')
-    expect(result.map('.item.!xyz')).equal('.cde.xyz')
+    expect(result.mapSel('.item.!xyz')).equal('.cde.xyz')
 
   })
 
@@ -148,7 +148,7 @@ describe('Test plugin selector localize', function() {
 
   })
 
-  it('should return class list with map2', function() {
+  it('should return class list with mapClass', function() {
 
     var loc = lib('_prefix_')
     var result = {}
@@ -156,23 +156,23 @@ describe('Test plugin selector localize', function() {
     var ret = loc('body .nav .item', {}, result)
     expect(ret).equal('body ._prefix_nav ._prefix_item')
 
-    expect(result.map2('item nav')).equal(' _prefix_item _prefix_nav')
+    expect(result.mapClass('item nav')).equal(' _prefix_item _prefix_nav')
 
     // also accept with .class
-    expect(result.map2('.item.nav')).equal(' _prefix_item _prefix_nav')
-    expect(result.map2('.item .nav')).equal(' _prefix_item _prefix_nav')
-    expect(result.map2(' .item .nav')).equal(' _prefix_item _prefix_nav')
+    expect(result.mapClass('.item.nav')).equal(' _prefix_item _prefix_nav')
+    expect(result.mapClass('.item .nav')).equal(' _prefix_item _prefix_nav')
+    expect(result.mapClass(' .item .nav')).equal(' _prefix_item _prefix_nav')
 
     // multiple space in end will into 1
-    expect(result.map2('  item   nav     ')).equal(' _prefix_item _prefix_nav ')
+    expect(result.mapClass('  item   nav     ')).equal(' _prefix_item _prefix_nav ')
     // with ! escape
-    expect(result.map2('  item   !nav     ')).equal(' _prefix_item nav ')
-    expect(result.map2('  item')).equal(' _prefix_item')
-    expect(result.map2('item')).equal(' _prefix_item')
-    expect(result.map2('item ')).equal(' _prefix_item ')
+    expect(result.mapClass('  item   !nav     ')).equal(' _prefix_item nav ')
+    expect(result.mapClass('  item')).equal(' _prefix_item')
+    expect(result.mapClass('item')).equal(' _prefix_item')
+    expect(result.mapClass('item ')).equal(' _prefix_item ')
 
     // global will generate 2 space, have to with .class
-    expect(result.map2(':global(.item.nav) abc')).equal('  item nav _prefix_abc')
+    expect(result.mapClass(':global(.item.nav) abc')).equal('  item nav _prefix_abc')
 
   })
 
