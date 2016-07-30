@@ -19,7 +19,9 @@ var localize = require('cssobj-plugin-selector-localize')
 var loc = localize(prefix, localNames)
 ```
 
-#### - prefix
+#### *PARAMS*
+
+#### prefix
 
 - Type: `String`
 
@@ -29,7 +31,7 @@ If pass empty string `''`, will use `''` (empty prefix)
 
 If pass other falsy value, will use default.
 
-#### - localNames
+#### localNames
 
 - Type: `Object`
 
@@ -40,6 +42,26 @@ If pass other falsy value, will use default.
 Key is original class name.
 
 Val is localized name.
+
+#### *RETURN*
+
+#### Add method to `result`
+
+The cssobj `result` object will be added 2 method by this plugin:
+
+##### - `result.mapSel({string} selector){ return {string} mappedSelector }`
+
+Replace class names in `selector` string, with all class names replace by localized version. (**keep dot** <kbd>.</kbd>)
+
+##### - `result.mapClass({string} classList){ return {string} mappedClassList }`
+
+Treat `classList` string as space seperated class list(e.g. in `<div class="abc efg">`),
+
+Replace all seperated word by localized version. (**without dot**)
+
+The classList can be `'nav item'`, or `'.nav .item'` form, all <kbd>.</kbd> will be replaced by space.
+
+##### Above 2 method both can accept `:global(.class1 .class2)` and `.!class1 .!class2` escaped for global space.
 
 ## Usage
 
@@ -52,8 +74,13 @@ var ret = cssobj({'.item': {color: 'red'}}, {
 })
 // css is => ._1hisnf23_item {color: red;}
 
-// you can get the map using:
-ret.map('item')  // === _1hisnf23_item
+// you can get the mapped selector using:
+ret.mapSel('.nav .item')  // === ._1hisnf23_nav ._1hisnf23_item
+
+// you can get the mapped class list using:
+// (used in className attributes for HTML tag)
+ret.mapClass('.nav .item')  // === _1hisnf23_nav _1hisnf23_item
+ret.mapClass('nav item')  // === _1hisnf23_nav _1hisnf23_item
 
 ```
 
@@ -113,7 +140,8 @@ var ret = cssobj({'body .nav .item .login': {color: 'red'}}, {
   plugins:{ selector: localize('_prefix_', {nav: '_abc_'}) }
 })
 
-ret.map('nav')  // === _abc_
-ret.map('item')  // === _prefix_item
+ret.mapSel('.nav .item .!pushRight')  // === ._abc_ ._prefix_item .pushRight
+ret.mapSel(':global(.nav .item) .pushRight')  // === .nav .item ._prefix_pushRight
+ret.mapClass('item nav !pushRight')  // ===  _prefix_item _abc_ pushRight
 ```
 
