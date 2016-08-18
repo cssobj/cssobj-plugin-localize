@@ -1,6 +1,6 @@
-# cssobj-plugin-selector-localize
+# cssobj-plugin-localize
 
-[![Build Status](https://travis-ci.org/cssobj/cssobj-plugin-selector-localize.svg?branch=master)](https://travis-ci.org/cssobj/cssobj-plugin-selector-localize)
+[![Build Status](https://travis-ci.org/cssobj/cssobj-plugin-localize.svg?branch=master)](https://travis-ci.org/cssobj/cssobj-plugin-localize)
 
 Localize class names for cssobj.
 
@@ -9,13 +9,13 @@ Localize class names for cssobj.
 install from github directly:
 
 ``` javascript
-npm install cssobj/cssobj-plugin-selector-localize
+npm install cssobj/cssobj-plugin-localize
 ```
 
 ## API
 
 ``` javascript
-var localize = require('cssobj-plugin-selector-localize')
+var localize = require('cssobj-plugin-localize')
 var loc = localize(prefix, localNames)
 ```
 
@@ -68,9 +68,9 @@ The classList can be `'nav item'`, or `'.nav .item'` form, all <kbd>.</kbd> will
 #### - Localize
 
 ``` javascript
-var localize = require('cssobj-plugin-selector-localize')
+var localize = require('cssobj-plugin-localize')
 var ret = cssobj({'.item': {color: 'red'}}, {
-  plugins:{ selector: localize() }
+  plugins:[  localize() ]
 })
 // css is => ._1hisnf23_item {color: red;}
 
@@ -94,7 +94,7 @@ Add **:global()** to wrap class names, to make them global.
 
 ``` javascript
 var ret = cssobj({'body :global(.nav .item) .login': {color: 'red'}}, {
-  plugins:{ selector: localize() }
+  plugins:[  localize() ]
 })
 // css is => body .nav .item ._1hisnf23_login {color: red;}
 ```
@@ -105,7 +105,7 @@ Just add **!** in front of class name, if you want it global.
 
 ``` javascript
 var ret = cssobj({'body .!nav .!item .login': {color: 'red'}}, {
-  plugins:{ selector: localize() }
+  plugins:[  localize() ]
 })
 // css is => body .nav .item ._1hisnf23_login {color: red;}
 ```
@@ -116,7 +116,7 @@ You can control the prefix:
 
 ``` javascript
 var ret = cssobj({'body .nav .item .login': {color: 'red'}}, {
-  plugins:{ selector: localize('_your_prefix_') }
+  plugins:[  localize('_your_prefix_') ]
 })
 // css is => body ._your_prefix_nav ._your_prefix_item ._your_prefix_login {color: red;}
 ```
@@ -128,7 +128,7 @@ You can control the map for each class name:
 
 ``` javascript
 var ret = cssobj({'body .nav .!item .login': {color: 'red'}}, {
-  plugins:{ selector: localize(null, {nav: '_abc_'}) }
+  plugins:[  localize(null, {nav: '_abc_'}) ]
 })
 // css is => body ._abc_ .!item ._1hisnf23_login {color: red;}
 ```
@@ -137,7 +137,7 @@ var ret = cssobj({'body .nav .!item .login': {color: 'red'}}, {
 
 ``` javascript
 var ret = cssobj({'body .nav .item .login': {color: 'red'}}, {
-  plugins:{ selector: localize('_prefix_', {nav: '_abc_'}) }
+  plugins:[  localize('_prefix_', {nav: '_abc_'}) ]
 })
 
 ret.mapSel('.nav .item .!pushRight')  // === ._abc_ ._prefix_item .pushRight

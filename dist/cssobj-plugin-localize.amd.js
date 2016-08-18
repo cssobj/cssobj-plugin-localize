@@ -1,4 +1,4 @@
-define('cssobj_plugin_selector_localize', function () { 'use strict';
+define('cssobj_plugin_localize', function () { 'use strict';
 
   // random string, should used across all cssobj plugins
   var random = (function () {
@@ -38,12 +38,14 @@ define('cssobj_plugin_selector_localize', function () { 'use strict';
       return mapSel((' '+str).replace(/\s+\.?/g, '.')).replace(/\./g, ' ')
     }
 
-    return function localizeName (sel, node, result) {
-      // don't touch at rule's selText
-      // it's copied from parent, which already localized
-      if(node.at) return sel
-      if(!result.mapSel) result.mapSel = mapSel, result.mapClass = mapClass
-      return mapSel(sel)
+    return {
+      selector: function localizeName (sel, node, result) {
+        // don't touch at rule's selText
+        // it's copied from parent, which already localized
+        if(node.at) return sel
+        if(!result.mapSel) result.mapSel = mapSel, result.mapClass = mapClass
+        return mapSel(sel)
+      }
     }
   }
 

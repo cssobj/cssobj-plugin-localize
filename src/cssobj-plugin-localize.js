@@ -31,12 +31,14 @@ export default function cssobj_plugin_selector_localize(prefix, localNames) {
     return mapSel((' '+str).replace(/\s+\.?/g, '.')).replace(/\./g, ' ')
   }
 
-  return function localizeName (sel, node, result) {
-    // don't touch at rule's selText
-    // it's copied from parent, which already localized
-    if(node.at) return sel
-    if(!result.mapSel) result.mapSel = mapSel, result.mapClass = mapClass
-    return mapSel(sel)
+  return {
+    selector: function localizeName (sel, node, result) {
+      // don't touch at rule's selText
+      // it's copied from parent, which already localized
+      if(node.at) return sel
+      if(!result.mapSel) result.mapSel = mapSel, result.mapClass = mapClass
+      return mapSel(sel)
+    }
   }
 }
 
