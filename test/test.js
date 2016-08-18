@@ -1,12 +1,12 @@
 var expect = require('chai').expect
-var lib = require('../dist/cssobj-plugin-selector-localize.cjs.js')
+var lib = require('../dist/cssobj-plugin-localize.cjs.js')
 
 describe('Test plugin selector localize', function() {
 
 
   it('should localize with random prefix', function() {
 
-    var loc = lib()
+    var loc = lib().selector
 
     var ret = loc('body .nav .item', {}, {})
     expect(ret).match(/body ._\w{5,7}\d_nav ._\w{5,7}\d_item/)
@@ -24,7 +24,7 @@ describe('Test plugin selector localize', function() {
 
   it('should localize with localNames', function() {
 
-    var loc = lib(null, {nav: '_custom_nav'})
+    var loc = lib(null, {nav: '_custom_nav'}).selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -39,7 +39,7 @@ describe('Test plugin selector localize', function() {
 
   it('should localize with custom prefix', function() {
 
-    var loc = lib('_prefix_')
+    var loc = lib('_prefix_').selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -54,7 +54,7 @@ describe('Test plugin selector localize', function() {
 
   it('should localize with custom prefix and localNames', function() {
 
-    var loc = lib('_prefix_', {nav: '_custom_nav'})
+    var loc = lib('_prefix_', {nav: '_custom_nav'}).selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -66,7 +66,7 @@ describe('Test plugin selector localize', function() {
 
   it('should also add prefix when not in sel', function() {
 
-    var loc = lib('_prefix_')
+    var loc = lib('_prefix_').selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -82,7 +82,7 @@ describe('Test plugin selector localize', function() {
 
   it('should no prefix when prefix=""', function() {
 
-    var loc = lib('')
+    var loc = lib('').selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -94,7 +94,7 @@ describe('Test plugin selector localize', function() {
 
   it('should work right with complex selector', function() {
 
-    var loc = lib('_prefix_')
+    var loc = lib('_prefix_').selector
     var result = {}
 
     var ret = loc('@support (prefix=(.abc)), [xyz=.abc], url=(.abc)', {}, result)
@@ -103,7 +103,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with :global', function() {
-    var loc = lib('_prefix_')
+    var loc = lib('_prefix_').selector
     var result = {}
 
     var ret = loc('body :global(.nav .item)', {}, result)
@@ -120,7 +120,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with ! symbol', function() {
-    var loc = lib('_prefix_')
+    var loc = lib('_prefix_').selector
     var result = {}
 
     var ret = loc('body.!nav .!item .xyz', {}, result)
@@ -130,7 +130,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with ! symbol and localNames', function() {
-    var loc = lib('_prefix_', {xyz: 'abc', item:'cde'})
+    var loc = lib('_prefix_', {xyz: 'abc', item:'cde'}).selector
     var result = {}
 
     var ret = loc('body.!nav .!item .xyz', {}, result)
@@ -140,7 +140,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with repeated class', function() {
-    var loc = lib('_prefix_')
+    var loc = lib('_prefix_').selector
     var result = {}
 
     var ret = loc('body .nav .nav.nav', {}, result)
@@ -150,7 +150,7 @@ describe('Test plugin selector localize', function() {
 
   it('should return class list with mapClass', function() {
 
-    var loc = lib('_prefix_')
+    var loc = lib('_prefix_').selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
