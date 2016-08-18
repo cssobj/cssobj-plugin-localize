@@ -7,7 +7,7 @@
   "scripts": {
     "test": "mocha",
     "report": "cd dist && gzip < cssobj-plugin-localize.min.js > cssobj-plugin-localize.min.gz && ls -lh && rm -f *.gz",
-    "make": "rollup -c && uglifyjs dist/cssobj-plugin-localize.iife.js -cm -o dist/cssobj-plugin-localize.min.js"
+    "make": "rollup -c && uglifyjs dist/cssobj-plugin-localize.iife.js -cm -o dist/cssobj-plugin-localize.min.js && gulp bump"
   },
   "repository": {
     "type": "git",
