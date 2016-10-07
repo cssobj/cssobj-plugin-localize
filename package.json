@@ -5,8 +5,7 @@
   "main": "dist/cssobj-plugin-localize.cjs.js",
   "jsnext:main": "dist/cssobj-plugin-localize.es.js",
   "scripts": {
-    "pretest": "rollup -c",
-    "test": "mocha",
+    "test": "npm run build && mocha",
     "report": "cd dist && gzip < cssobj-plugin-localize.min.js > cssobj-plugin-localize.min.gz && ls -lh && rm -f *.gz",
     "build": "git rev-parse HEAD > .commithash && rollup -c && uglifyjs dist/cssobj-plugin-localize.iife.js -cm -o dist/cssobj-plugin-localize.min.js",
     "make": "gulp bump && npm run build"

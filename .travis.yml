@@ -1,6 +1,7 @@
 language: node_js
 
 node_js:
-  - '6.2.1'
+  - '6'
 
-script: 'npm test'
+script:
+  - mocha
