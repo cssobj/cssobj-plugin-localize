@@ -1,6 +1,6 @@
 # cssobj-plugin-localize
 
-[![Build Status](https://travis-ci.org/cssobj/cssobj-plugin-localize.svg?branch=master)](https://travis-ci.org/cssobj/cssobj-plugin-localize)
+[![Join the chat at https://gitter.im/css-in-js/cssobj](https://badges.gitter.im/css-in-js/cssobj.svg)](https://gitter.im/css-in-js/cssobj) [![Build Status](https://travis-ci.org/cssobj/cssobj-plugin-localize.svg?branch=master)](https://travis-ci.org/cssobj/cssobj-plugin-localize)
 
 Localize class names for cssobj.
 
