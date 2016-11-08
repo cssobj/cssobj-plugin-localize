@@ -109,6 +109,9 @@ describe('Test plugin selector localize', function() {
     var ret = loc('body :global(.nav .item)', {}, result)
     expect(ret).equal('body .nav .item')
 
+    var ret = loc(':global(.nav .item)', {}, result)
+    expect(ret).equal('.nav .item')
+
     var ret = loc('body:global(.nav .item)', {}, result)
     expect(ret).equal('body.nav .item')
 
