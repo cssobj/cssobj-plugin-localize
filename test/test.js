@@ -99,7 +99,10 @@ describe('Test plugin selector localize', function() {
     var result = {}
 
     var ret = loc('@support (prefix=(.abc)), [xyz=.abc], url=(.abc)', {}, result)
-    expect(ret).equal('@support (prefix=(._prefix_abc)), [xyz=._prefix_abc], url=(._prefix_abc)')
+
+    /* since 2.1.0 below will not supported */
+    // expect(ret).equal('@support (prefix=(._prefix_abc)), [xyz=._prefix_abc], url=(._prefix_abc)')
+    expect(ret).equal('@support (prefix=(.abc)), [xyz=.abc], url=(.abc)')
 
   })
 
@@ -131,6 +134,14 @@ describe('Test plugin selector localize', function() {
     expect(ret).equal('body.nav .item ._prefix_xyz')
 
     expect(result.mapSel('.nav.!item')).equal('._prefix_nav.item')
+  })
+
+  it('should work right with string', function() {
+    var loc = lib('_prefix_').selector
+    var result = {}
+
+    var ret = loc('.nav a[title=".sdf].abc:global(.def)"]', {}, result)
+    expect(ret).equal('._prefix_nav a[title=".sdf].abc:global(.def)"]')
   })
 
   it('should work right with ! symbol and localNames', function() {
@@ -176,7 +187,7 @@ describe('Test plugin selector localize', function() {
     expect(result.mapClass('item ')).equal(' _prefix_item ')
 
     // global will generate 2 space, have to with .class
-    expect(result.mapClass(':global(.item.nav) abc')).equal('  item nav _prefix_abc')
+    expect(result.mapClass(':global(.item.nav) abc')).equal(' item nav _prefix_abc')
 
   })
 

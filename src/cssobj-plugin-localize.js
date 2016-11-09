@@ -2,29 +2,14 @@
 
 import {random} from '../../cssobj-helper/lib/cssobj-helper.js'
 
-var reClass = /:global\s*\(((?:\s*\.[A-Za-z0-9_-]+\s*)+)\)|(\.)([!A-Za-z0-9_-]+)/g
-
 export default function cssobj_plugin_selector_localize(prefix, localNames) {
 
   prefix = prefix!=='' ? prefix || random() : ''
 
   localNames = localNames || {}
 
-  var replacer = function (match, global, dot, name) {
-    if (global) {
-      return global
-    }
-    if (name[0] === '!') {
-      return dot + name.substr(1)
-    }
-
-    return dot + (name in localNames
-                  ? localNames[name]
-                  : prefix + name)
-  }
-
   var parser = function(str) {
-    var store=[], ast=[], lastAst
+    var store=[], ast=[], lastAst, name, match
     for(var c, i=0, len=str.length; i<len; i++) {
       c=str[i]
       lastAst = ast[0]
@@ -40,21 +25,34 @@ export default function cssobj_plugin_selector_localize(prefix, localNames) {
           if(c==')' && lastAst=='g') c=''
           ast.shift(c)
         }
-        if(c==='.' && !lastAst) c='.__'
+        if(c==='.' && !lastAst) {
+          if(str[i+1]=='!') {
+            i++
+          } else {
+            match = /[a-z0-9_-]+/i.exec(str.slice(i+1))
+            if(match) {
+              name = match[0]
+              c += name in localNames
+                ? localNames[name]
+                : prefix + name
+              i += name.length
+            }
+          }
+        }
       } else {
         if(c===lastAst) ast.shift()
       }
       store.push(c)
     }
-    return store
+    return store.join('')
   }
 
-  var mapSel = function(str, isClassList) {
-    return str.replace(reClass, replacer)
+  var mapSel = function(str) {
+    return parser(str)
   }
 
   var mapClass = function(str) {
-    return mapSel((' '+str).replace(/\s+\.?/g, '.')).replace(/\./g, ' ')
+    return mapSel(str.replace(/\s+\.?/g, '.').replace(/^([^:\s.])/i, '.$1')).replace(/\./g, ' ')
   }
 
   return {
