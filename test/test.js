@@ -136,12 +136,22 @@ describe('Test plugin selector localize', function() {
     expect(result.mapSel('.nav.!item')).equal('._prefix_nav.item')
   })
 
-  it('should work right with string', function() {
+  it('should work right with unicode selector', function() {
+    var loc = lib('_prefix_').selector
+    var result = {}
+
+    var ret = loc('.选择器1 .选择器2 .!选择器3', {}, result)
+    expect(ret).equal('._prefix_选择器1 ._prefix_选择器2 .选择器3')
+  })
+
+  it('should work right with string and bracket', function() {
     var loc = lib('_prefix_').selector
     var result = {}
 
     var ret = loc('.nav a[title=".sdf].abc:global(.def)"]', {}, result)
     expect(ret).equal('._prefix_nav a[title=".sdf].abc:global(.def)"]')
+
+    expect(result.mapSel('.item[.!xyz.abc:global(.def)]')).equal('._prefix_item[.!xyz.abc:global(.def)]')
   })
 
   it('should work right with ! symbol and localNames', function() {

@@ -9,13 +9,13 @@ export default function cssobj_plugin_selector_localize(prefix, localNames) {
   localNames = localNames || {}
 
   var parser = function(str) {
-    var store=[], ast=[], lastAst, name, match
-    for(var c, i=0, len=str.length; i<len; i++) {
+    var store=[], ast=[], lastAst, match
+    for(var c, n, i=0, len=str.length; i<len; i++) {
       c=str[i]
       lastAst = ast[0]
       if(lastAst!=='\'' && lastAst!=='"') {
         // not in string
-        if(c===':' && str.substr(i+1, 7)==='global(') {
+        if(!lastAst && c===':' && str.substr(i+1, 7)==='global(') {
           ast.unshift('g')
           i+=7
           continue
@@ -25,18 +25,20 @@ export default function cssobj_plugin_selector_localize(prefix, localNames) {
           if(c==')' && lastAst=='g') c=''
           ast.shift(c)
         }
-        if(c==='.' && !lastAst) {
-          if(str[i+1]=='!') {
-            i++
-          } else {
-            match = /[a-z0-9_-]+/i.exec(str.slice(i+1))
-            if(match) {
-              name = match[0]
-              c += name in localNames
-                ? localNames[name]
-                : prefix + name
-              i += name.length
+        if(!lastAst && c==='.') {
+          i++
+          if(str[i]!=='!') {
+            match = []
+            while( (n=str[i]) &&
+                   (n>='0'&&n<='9'||n>='a'&&n<='z'||n>='A'&&n<='Z'||n=='-'||n=='_'||n>='\u00a0'))
+              match.push(str[i++])
+            if(match.length) {
+              n = match.join('')
+              c += n in localNames
+                ? localNames[n]
+                : prefix + n
             }
+            i--
           }
         }
       } else {
