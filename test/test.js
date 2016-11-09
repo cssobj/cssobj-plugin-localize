@@ -47,6 +47,7 @@ describe('Test plugin selector localize', function() {
     expect(ret).match(/body ._prefix_nav ._prefix_item/)
 
     expect(result.mapSel('.nav')).equal('._prefix_nav')
+    expect(result.mapSel('.nav a[href=abc.html]')).equal('._prefix_nav a[href=abc.html]')
 
     expect(result.mapSel('.item')).equal('._prefix_item')
 
