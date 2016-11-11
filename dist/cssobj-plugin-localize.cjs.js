@@ -56,11 +56,13 @@ function arrayKV (obj, k, v, reverse, unique) {
 
 // cssobj plugin
 
-function cssobj_plugin_selector_localize(prefix, localNames) {
+function cssobj_plugin_selector_localize(option) {
 
-  prefix = prefix!=='' ? prefix || random() : '';
+  option = option || {};
 
-  localNames = localNames || {};
+  var prefix = option.prefix = typeof option.prefix!=='string' ? random() : option.prefix;
+
+  var localNames = option.localNames = option.localNames || {};
 
   var parser = function(str) {
     var store=[], ast=[], lastAst, match;

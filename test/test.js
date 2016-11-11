@@ -24,7 +24,7 @@ describe('Test plugin selector localize', function() {
 
   it('should localize with localNames', function() {
 
-    var loc = lib(null, {nav: '_custom_nav'}).selector
+    var loc = lib({prefix: null, localNames: {nav: '_custom_nav'}}).selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -39,7 +39,7 @@ describe('Test plugin selector localize', function() {
 
   it('should localize with custom prefix', function() {
 
-    var loc = lib('_prefix_').selector
+    var loc = lib({prefix: '_prefix_'}).selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -55,7 +55,7 @@ describe('Test plugin selector localize', function() {
 
   it('should localize with custom prefix and localNames', function() {
 
-    var loc = lib('_prefix_', {nav: '_custom_nav'}).selector
+    var loc = lib({prefix: '_prefix_', localNames: {nav: '_custom_nav'}}).selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -67,7 +67,7 @@ describe('Test plugin selector localize', function() {
 
   it('should also add prefix when not in sel', function() {
 
-    var loc = lib('_prefix_').selector
+    var loc = lib({prefix:'_prefix_'}).selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -83,7 +83,7 @@ describe('Test plugin selector localize', function() {
 
   it('should no prefix when prefix=""', function() {
 
-    var loc = lib('').selector
+    var loc = lib({prefix:''}).selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)
@@ -95,7 +95,7 @@ describe('Test plugin selector localize', function() {
 
   it('should work right with complex selector', function() {
 
-    var loc = lib('_prefix_').selector
+    var loc = lib({prefix:'_prefix_'}).selector
     var result = {}
 
     var ret = loc('@support (prefix=(.abc)), [xyz=.abc], url=(.abc)', {}, result)
@@ -107,7 +107,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with :global', function() {
-    var loc = lib('_prefix_').selector
+    var loc = lib({prefix:'_prefix_'}).selector
     var result = {}
 
     var ret = loc('body :global(.nav .item)', {}, result)
@@ -127,7 +127,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with ! symbol', function() {
-    var loc = lib('_prefix_').selector
+    var loc = lib({prefix:'_prefix_'}).selector
     var result = {}
 
     var ret = loc('body.!nav .!item .xyz', {}, result)
@@ -137,7 +137,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with unicode selector', function() {
-    var loc = lib('_prefix_').selector
+    var loc = lib({prefix:'_prefix_'}).selector
     var result = {}
 
     var ret = loc('.选择器1 .选择器2 .!选择器3', {}, result)
@@ -145,7 +145,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with string and bracket', function() {
-    var loc = lib('_prefix_').selector
+    var loc = lib({prefix:'_prefix_'}).selector
     var result = {}
 
     var ret = loc('.nav a[title=".sdf].abc:global(.def)"]', {}, result)
@@ -155,7 +155,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with ! symbol and localNames', function() {
-    var loc = lib('_prefix_', {xyz: 'abc', item:'cde'}).selector
+    var loc = lib({prefix:'_prefix_', localNames: {xyz: 'abc', item:'cde'}}).selector
     var result = {}
 
     var ret = loc('body.!nav .!item .xyz', {}, result)
@@ -165,7 +165,7 @@ describe('Test plugin selector localize', function() {
   })
 
   it('should work right with repeated class', function() {
-    var loc = lib('_prefix_').selector
+    var loc = lib({prefix:'_prefix_'}).selector
     var result = {}
 
     var ret = loc('body .nav .nav.nav', {}, result)
@@ -175,7 +175,7 @@ describe('Test plugin selector localize', function() {
 
   it('should return class list with mapClass', function() {
 
-    var loc = lib('_prefix_').selector
+    var loc = lib({prefix:'_prefix_'}).selector
     var result = {}
 
     var ret = loc('body .nav .item', {}, result)

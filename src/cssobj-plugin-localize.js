@@ -2,11 +2,13 @@
 
 import {random} from '../../cssobj-helper/lib/cssobj-helper.js'
 
-export default function cssobj_plugin_selector_localize(prefix, localNames) {
+export default function cssobj_plugin_selector_localize(option) {
 
-  prefix = prefix!=='' ? prefix || random() : ''
+  option = option || {}
 
-  localNames = localNames || {}
+  var prefix = option.prefix = typeof option.prefix!=='string' ? random() : option.prefix
+
+  var localNames = option.localNames = option.localNames || {}
 
   var parser = function(str) {
     var store=[], ast=[], lastAst, match
