@@ -6,11 +6,11 @@ export default function cssobj_plugin_selector_localize(option) {
 
   option = option || {}
 
-  var prefix = option.prefix = typeof option.prefix!=='string' ? random() : option.prefix
+  var space = option.space = typeof option.space!=='string' ? random() : option.space
 
   var localNames = option.localNames = option.localNames || {}
 
-  var parser = function(str) {
+  var parseSel = function(str) {
     var store=[], ast=[], lastAst, match
     for(var c, n, i=0, len=str.length; i<len; i++) {
       c=str[i]
@@ -38,7 +38,7 @@ export default function cssobj_plugin_selector_localize(option) {
               n = match.join('')
               c += n in localNames
                 ? localNames[n]
-                : prefix + n
+                : n + space
             }
             i--
           }
@@ -51,12 +51,8 @@ export default function cssobj_plugin_selector_localize(option) {
     return store.join('')
   }
 
-  var mapSel = function(str) {
-    return parser(str)
-  }
-
   var mapClass = function(str) {
-    return mapSel(str.replace(/\s+\.?/g, '.').replace(/^([^:\s.])/i, '.$1')).replace(/\./g, ' ')
+    return parseSel(str.replace(/\s+\.?/g, '.').replace(/^([^:\s.])/i, '.$1')).replace(/\./g, ' ')
   }
 
   return {
@@ -64,8 +60,8 @@ export default function cssobj_plugin_selector_localize(option) {
       // don't touch at rule's selText
       // it's copied from parent, which already localized
       if(node.at) return sel
-      if(!result.mapSel) result.mapSel = mapSel, result.mapClass = mapClass
-      return mapSel(sel)
+      if(!result.mapSel) result.mapSel = parseSel, result.mapClass = mapClass
+      return parseSel(sel)
     }
   }
 }
