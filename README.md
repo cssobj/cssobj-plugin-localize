@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/css-in-js/cssobj](https://badges.gitter.im/css-in-js/cssobj.svg)](https://gitter.im/css-in-js/cssobj) [![Build Status](https://travis-ci.org/cssobj/cssobj-plugin-localize.svg?branch=master)](https://travis-ci.org/cssobj/cssobj-plugin-localize)
 
-Localize class names for cssobj.
+Localize class names for cssobj. Put CSS Class names into different name **space**.
 
 ## Install
 
@@ -14,20 +14,15 @@ npm install cssobj/cssobj-plugin-localize
 
 ## API
 
-``` javascript
-var localize = require('cssobj-plugin-localize')
-var loc = localize(prefix, localNames)
-```
+### localize(space: boolean|string, localNames: object) -> {selector: function}
 
-#### *PARAMS*
+#### space
 
-#### prefix
-
-- Type: `String`
+- Type: `String` | `Boolean`
 
 - Default: Random String
 
-If pass empty string `''`, will use `''` (empty prefix)
+If pass empty string `''`, will use `''` (empty space)
 
 If pass other falsy value, will use default.
 
@@ -112,13 +107,13 @@ var ret = cssobj({'body .!nav .!item .login': {color: 'red'}}, {
 
 #### - Custom Prefix
 
-You can control the prefix:
+You can control the space:
 
 ``` javascript
 var ret = cssobj({'body .nav .item .login': {color: 'red'}}, {
-  plugins:[  localize('_your_prefix_') ]
+  plugins:[  localize('_your_space_') ]
 })
-// css is => body ._your_prefix_nav ._your_prefix_item ._your_prefix_login {color: red;}
+// css is => body ._your_space_nav ._your_space_item ._your_space_login {color: red;}
 ```
 
 
@@ -137,11 +132,11 @@ var ret = cssobj({'body .nav .!item .login': {color: 'red'}}, {
 
 ``` javascript
 var ret = cssobj({'body .nav .item .login': {color: 'red'}}, {
-  plugins:[  localize('_prefix_', {nav: '_abc_'}) ]
+  plugins:[  localize('_space_', {nav: '_abc_'}) ]
 })
 
-ret.mapSel('.nav .item .!pushRight')  // === ._abc_ ._prefix_item .pushRight
-ret.mapSel(':global(.nav .item) .pushRight')  // === .nav .item ._prefix_pushRight
-ret.mapClass('item nav !pushRight')  // ===  _prefix_item _abc_ pushRight
+ret.mapSel('.nav .item .!pushRight')  // === ._abc_ ._space_item .pushRight
+ret.mapSel(':global(.nav .item) .pushRight')  // === .nav .item ._space_pushRight
+ret.mapClass('item nav !pushRight')  // ===  _space_item _abc_ pushRight
 ```
 
