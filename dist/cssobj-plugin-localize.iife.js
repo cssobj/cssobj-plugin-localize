@@ -22,9 +22,6 @@ function own(o, k) {
 // repeat str for num times
 
 
-// don't use String.prototype.trim in cssobj, using below instead
-
-
 // random string, should used across all cssobj plugins
 var random = (function () {
   var count = 0;
@@ -111,6 +108,7 @@ function cssobj_plugin_selector_localize(option) {
   };
 
   return {
+    space: space,
     selector: function localizeName (sel, node, result) {
       // don't touch at rule's selText
       // it's copied from parent, which already localized

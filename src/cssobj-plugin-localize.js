@@ -56,6 +56,7 @@ export default function cssobj_plugin_selector_localize(option) {
   }
 
   return {
+    space: space,
     selector: function localizeName (sel, node, result) {
       // don't touch at rule's selText
       // it's copied from parent, which already localized
