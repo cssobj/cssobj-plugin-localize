@@ -105,12 +105,17 @@ function cssobj_plugin_selector_localize(option) {
   };
 
   return {
-    space: space,
     selector: function localizeName (sel, node, result) {
       // don't touch at rule's selText
       // it's copied from parent, which already localized
       if(node.at) return sel
-      if(!result.mapSel) result.mapSel = parseSel, result.mapClass = mapClass;
+      if(!result.mapSel) {
+        result.space = space;
+        result.localNames = localNames;
+        result.mapSel = parseSel;
+        result.mapClass = mapClass;
+      }
+
       return parseSel(sel)
     }
   }
