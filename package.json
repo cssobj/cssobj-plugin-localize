@@ -1,11 +1,12 @@
 {
   "name": "cssobj-plugin-localize",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Localize class name for cssobj",
   "main": "dist/cssobj-plugin-localize.cjs.js",
+  "browser": "dist/cssobj-plugin-localize.iife.js",
   "jsnext:main": "dist/cssobj-plugin-localize.es.js",
   "scripts": {
-    "test": "npm run build && mocha",
+    "test": "npm run build && istanbul cover _mocha",
     "report": "cd dist && gzip < cssobj-plugin-localize.min.js > cssobj-plugin-localize.min.gz && ls -lh && rm -f *.gz",
     "build": "git rev-parse HEAD > .commithash && rollup -c && uglifyjs dist/cssobj-plugin-localize.iife.js -cm -o dist/cssobj-plugin-localize.min.js",
     "make": "gulp bump && npm run build"

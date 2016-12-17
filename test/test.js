@@ -22,6 +22,24 @@ describe('Test plugin selector localize', function() {
 
   })
 
+  it('should localize with custom random method', function() {
+
+    var loc = lib({random: ()=>'_random_'}).selector
+
+    var ret = loc('body .nav .item', {}, {})
+    expect(ret).match(/body .nav_random_ .item_random_/)
+
+  })
+
+  it('should not localize for @-rules', function() {
+
+    var loc = lib().selector
+
+    var ret = loc('body .nav .item', {at: 'keyframes'}, {})
+    expect(ret).equal('body .nav .item')
+
+  })
+
   it('should localize with localNames', function() {
 
     var loc = lib({space: null, localNames: {nav: '_custom_nav'}}).selector

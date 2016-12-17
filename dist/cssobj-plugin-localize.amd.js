@@ -57,7 +57,9 @@ function cssobj_plugin_selector_localize(option) {
 
   option = option || {};
 
-  var space = option.space = typeof option.space!=='string' ? random() : option.space;
+  var space = option.space = typeof option.space!=='string'
+      ? (typeof option.random == 'function' ?  option.random() : random())
+      : option.space;
 
   var localNames = option.localNames = option.localNames || {};
 
