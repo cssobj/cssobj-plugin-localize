@@ -124,26 +124,6 @@ describe('Test plugin selector localize', function() {
 
   })
 
-  it('should work right with :global', function() {
-    var loc = lib({space:'_space_'}).selector
-    var result = {}
-
-    var ret = loc('body :global(.nav .item)', {}, result)
-    expect(ret).equal('body .nav .item')
-
-    var ret = loc(':global(.nav .item)', {}, result)
-    expect(ret).equal('.nav .item')
-
-    var ret = loc('body:global(.nav .item)', {}, result)
-    expect(ret).equal('body.nav .item')
-
-    var ret = loc('body:global( .nav .item).xyz', {}, result)
-    expect(ret).equal('body .nav .item.xyz_space_')
-
-    expect(result.mapSel('body .nav :global(.xyz)')).equal('body .nav_space_ .xyz')
-
-  })
-
   it('should work right with ! symbol', function() {
     var loc = lib({space:'_space_'}).selector
     var result = {}
@@ -166,10 +146,10 @@ describe('Test plugin selector localize', function() {
     var loc = lib({space:'_space_'}).selector
     var result = {}
 
-    var ret = loc('.nav a[title=".sdf].abc:global(.def)"]', {}, result)
-    expect(ret).equal('.nav_space_ a[title=".sdf].abc:global(.def)"]')
+    var ret = loc('.nav a[title=".sdf].abc .!def"]', {}, result)
+    expect(ret).equal('.nav_space_ a[title=".sdf].abc .!def"]')
 
-    expect(result.mapSel('.item[.!xyz.abc:global(.def)]')).equal('.item_space_[.!xyz.abc:global(.def)]')
+    expect(result.mapSel('.item[.!xyz.abc.def]')).equal('.item_space_[.!xyz.abc.def]')
   })
 
   it('should work right with ! symbol and localNames', function() {
@@ -215,7 +195,7 @@ describe('Test plugin selector localize', function() {
     expect(result.mapClass('item ')).equal(' item_space_ ')
 
     // global will generate 2 space, have to with .class
-    expect(result.mapClass(':global(.item.nav) abc')).equal(' item nav abc_space_')
+    expect(result.mapClass('.!item.!nav abc')).equal(' item nav abc_space_')
 
   })
 

@@ -1,6 +1,16 @@
 // cssobj plugin
 
-import {random} from '../../cssobj-helper/lib/cssobj-helper.js'
+import {random, syntaxSplit} from '../../cssobj-helper/lib/cssobj-helper.js'
+
+function isClassName (char, i, segment) {
+  return i>0 && !segment.length && (char == '!'
+          || char >= '0' && char <= '9'
+          || char >= 'a' && char <= 'z'
+          || char >= 'A' && char <= 'Z'
+          || char == '-'
+          || char == '_'
+          || char >= '\u00a0')
+}
 
 export default function cssobj_plugin_selector_localize(option) {
 
@@ -12,45 +22,22 @@ export default function cssobj_plugin_selector_localize(option) {
 
   var localNames = option.localNames = option.localNames || {}
 
+  var localize = function(name) {
+    return name[0]=='!'
+      ? name.slice(1)
+      : (name in localNames
+         ? localNames[name]
+         : name + space)
+  }
+
   var parseSel = function(str) {
-    var store=[], ast=[], lastAst, match
-    for(var c, n, i=0, len=str.length; i<len; i++) {
-      c=str[i]
-      lastAst = ast[0]
-      if(lastAst!=='\'' && lastAst!=='"') {
-        // not in string
-        if(!lastAst && c===':' && str.substr(i+1, 7)==='global(') {
-          ast.unshift('g')
-          i+=7
-          continue
-        }
-        if(~ '[(\'"'.indexOf(c)) ast.unshift(c)
-        if(~ '])'.indexOf(c)) {
-          if(c==')' && lastAst=='g') c=''
-          ast.shift(c)
-        }
-        if(!lastAst && c==='.') {
-          i++
-          if(str[i]!=='!') {
-            match = []
-            while( (n=str[i]) &&
-                   (n>='0'&&n<='9'||n>='a'&&n<='z'||n>='A'&&n<='Z'||n=='-'||n=='_'||n>='\u00a0'))
-              match.push(str[i++])
-            if(match.length) {
-              n = match.join('')
-              c += n in localNames
-                ? localNames[n]
-                : n + space
-            }
-            i--
-          }
-        }
-      } else {
-        if(c===lastAst) ast.shift()
-      }
-      store.push(c)
-    }
-    return store.join('')
+    return syntaxSplit(
+      str,
+      '.',
+      true,
+      isClassName,
+      localize
+    ).join('')
   }
 
   var mapClass = function(str) {

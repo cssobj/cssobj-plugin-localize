@@ -5,7 +5,9 @@
 // check n is numeric, or string of numeric
 
 
-
+function own(o, k) {
+  return {}.hasOwnProperty.call(o, k)
+}
 
 // set default option (not deeply)
 
@@ -32,7 +34,11 @@ var random = (function () {
 
 
 // ensure obj[k] as array, then push v into it
-
+function arrayKV (obj, k, v, reverse, unique) {
+  obj[k] = k in obj ? [].concat(obj[k]) : [];
+  if(unique && obj[k].indexOf(v)>-1) return
+  reverse ? obj[k].unshift(v) : obj[k].push(v);
+}
 
 // replace find in str, with rep function result
 
@@ -43,9 +49,46 @@ var random = (function () {
 // split selector etc. aware of css attributes
 
 
+// split char aware of syntax
+function syntaxSplit (str, splitter, keepSplitter, test, final) {
+  var isString, isFeature, isSplitter, feature = [], segment = [], result = [], ast = [], len = str.length;
+  for (var c, i = 0, lastAst, prev = 0; i <= len; i++) {
+    c = str.charAt(i);
+    lastAst = ast[0];
+    isString = lastAst == '\'' || lastAst == '"';
+    if (!isString) {
+      if ('[(\'"'.indexOf(c) >= 0) ast.unshift(c);
+      if ('])'.indexOf(c) >= 0) ast.shift();
+    } else {
+      if (c == lastAst) ast.shift();
+    }
+    if (lastAst) {
+      segment.push(c);
+    } else {
+      isFeature = test && c && test(c, i, segment, result);
+      isSplitter = c == splitter || !c;
+      if (isSplitter && !keepSplitter) c = '';
+      if (isFeature) feature.push(c);
+      if (!isFeature || isSplitter) segment.push(feature.length ? final(feature.join('')) : '', c), feature = [];
+      if (isSplitter) result.push(segment.join('')), segment = [];
+    }
+  }
+  return result
+}
+
 // checking for valid css value
 
 // cssobj plugin
+
+function isClassName (char, i, segment) {
+  return i>0 && !segment.length && (char == '!'
+          || char >= '0' && char <= '9'
+          || char >= 'a' && char <= 'z'
+          || char >= 'A' && char <= 'Z'
+          || char == '-'
+          || char == '_'
+          || char >= '\u00a0')
+}
 
 function cssobj_plugin_selector_localize(option) {
 
@@ -57,45 +100,22 @@ function cssobj_plugin_selector_localize(option) {
 
   var localNames = option.localNames = option.localNames || {};
 
+  var localize = function(name) {
+    return name[0]=='!'
+      ? name.slice(1)
+      : (name in localNames
+         ? localNames[name]
+         : name + space)
+  };
+
   var parseSel = function(str) {
-    var store=[], ast=[], lastAst, match;
-    for(var c, n, i=0, len=str.length; i<len; i++) {
-      c=str[i];
-      lastAst = ast[0];
-      if(lastAst!=='\'' && lastAst!=='"') {
-        // not in string
-        if(!lastAst && c===':' && str.substr(i+1, 7)==='global(') {
-          ast.unshift('g');
-          i+=7;
-          continue
-        }
-        if(~ '[(\'"'.indexOf(c)) ast.unshift(c);
-        if(~ '])'.indexOf(c)) {
-          if(c==')' && lastAst=='g') c='';
-          ast.shift(c);
-        }
-        if(!lastAst && c==='.') {
-          i++;
-          if(str[i]!=='!') {
-            match = [];
-            while( (n=str[i]) &&
-                   (n>='0'&&n<='9'||n>='a'&&n<='z'||n>='A'&&n<='Z'||n=='-'||n=='_'||n>='\u00a0'))
-              match.push(str[i++]);
-            if(match.length) {
-              n = match.join('');
-              c += n in localNames
-                ? localNames[n]
-                : n + space;
-            }
-            i--;
-          }
-        }
-      } else {
-        if(c===lastAst) ast.shift();
-      }
-      store.push(c);
-    }
-    return store.join('')
+    return syntaxSplit(
+      str,
+      '.',
+      true,
+      isClassName,
+      localize
+    ).join('')
   };
 
   var mapClass = function(str) {
