@@ -49,6 +49,7 @@ function arrayKV (obj, k, v, reverse, unique) {
 
 // split selector with splitter, aware of css attributes
 function splitSelector (sel, splitter) {
+  if (sel.indexOf(splitter) < 0) return [sel]
   for (var c, i = 0, n = 0, instr = '', prev = 0, d = []; c = sel.charAt(i); i++) {
     if (instr) {
       if (c == instr) instr = '';
