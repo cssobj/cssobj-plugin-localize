@@ -46,49 +46,32 @@ function arrayKV (obj, k, v, reverse, unique) {
 // get parents array from node (when it's passed the test)
 
 
-// split selector etc. aware of css attributes
+// split selector with comma, aware of css attributes
 
+
+// split selector with splitter, aware of css attributes
+function splitSelector (sel, splitter) {
+  for (var c, i = 0, n = 0, instr = '', prev = 0, d = []; c = sel.charAt(i); i++) {
+    if (instr) {
+      if (c == instr) instr = '';
+      continue
+    }
+    if (c == '"' || c == '\'') instr = c;
+    if (c == '(' || c == '[') n++;
+    if (c == ')' || c == ']') n--;
+    if (!n && c == splitter) d.push(sel.substring(prev, i)), prev = i + 1;
+  }
+  return d.concat(sel.substring(prev))
+}
 
 // split char aware of syntax
-function syntaxSplit (str, splitter, keepSplitter, test, final) {
-  var isString, isFeature, isSplitter, feature = [], segment = [], result = [], ast = [], len = str.length;
-  for (var c, i = 0, lastAst, prev = 0; i <= len; i++) {
-    c = str.charAt(i);
-    lastAst = ast[0];
-    isString = lastAst == '\'' || lastAst == '"';
-    if (!isString) {
-      if ('[(\'"'.indexOf(c) >= 0) ast.unshift(c);
-      if ('])'.indexOf(c) >= 0) ast.shift();
-    } else {
-      if (c == lastAst) ast.shift();
-    }
-    if (lastAst) {
-      segment.push(c);
-    } else {
-      isFeature = test && c && test(c, i, segment, result);
-      isSplitter = c == splitter || !c;
-      if (isSplitter && !keepSplitter) c = '';
-      if (isFeature) feature.push(c);
-      if (!isFeature || isSplitter) segment.push(feature.length ? final(feature.join('')) : '', c), feature = [];
-      if (isSplitter) result.push(segment.join('')), segment = [];
-    }
-  }
-  return result
-}
+
 
 // checking for valid css value
 
 // cssobj plugin
 
-function isClassName (char, i, segment) {
-  return i>0 && !segment.length && (char == '!'
-          || char >= '0' && char <= '9'
-          || char >= 'a' && char <= 'z'
-          || char >= 'A' && char <= 'Z'
-          || char == '-'
-          || char == '_'
-          || char >= '\u00a0')
-}
+var classNameRe = /[ \~\\@$%^&\*\(\)\+\=,/';\:"?><[\]\\{}|`]/;
 
 function cssobj_plugin_selector_localize(option) {
 
@@ -102,20 +85,25 @@ function cssobj_plugin_selector_localize(option) {
 
   var localize = function(name) {
     return name[0]=='!'
-      ? name.slice(1)
+      ? name.substr(1)
       : (name in localNames
          ? localNames[name]
          : name + space)
   };
 
   var parseSel = function(str) {
-    return syntaxSplit(
-      str,
-      '.',
-      true,
-      isClassName,
-      localize
-    ).join('')
+    var part = splitSelector(str, '.');
+    var sel=part[0];
+    for(var i = 1, p, pos, len = part.length; i < len; i++) {
+      p = part[i];
+      if(!p) {
+        sel += '.';
+        continue
+      }
+      pos = p.search(classNameRe);
+      sel += '.' + (pos<0 ? localize(p) : localize(p.substr(0,pos)) + p.substr(pos));
+    }
+    return sel
   };
 
   var mapClass = function(str) {

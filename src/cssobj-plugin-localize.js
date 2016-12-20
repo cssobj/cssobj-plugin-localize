@@ -1,16 +1,8 @@
 // cssobj plugin
 
-import {random, syntaxSplit} from '../../cssobj-helper/lib/cssobj-helper.js'
+import {random, splitSelector} from '../../cssobj-helper/lib/cssobj-helper.js'
 
-function isClassName (char, i, segment) {
-  return i>0 && !segment.length && (char == '!'
-          || char >= '0' && char <= '9'
-          || char >= 'a' && char <= 'z'
-          || char >= 'A' && char <= 'Z'
-          || char == '-'
-          || char == '_'
-          || char >= '\u00a0')
-}
+var classNameRe = /[ \~\\@$%^&\*\(\)\+\=,/';\:"?><[\]\\{}|`]/
 
 export default function cssobj_plugin_selector_localize(option) {
 
@@ -24,20 +16,25 @@ export default function cssobj_plugin_selector_localize(option) {
 
   var localize = function(name) {
     return name[0]=='!'
-      ? name.slice(1)
+      ? name.substr(1)
       : (name in localNames
          ? localNames[name]
          : name + space)
   }
 
   var parseSel = function(str) {
-    return syntaxSplit(
-      str,
-      '.',
-      true,
-      isClassName,
-      localize
-    ).join('')
+    var part = splitSelector(str, '.')
+    var sel=part[0]
+    for(var i = 1, p, pos, len = part.length; i < len; i++) {
+      p = part[i]
+      if(!p) {
+        sel += '.'
+        continue
+      }
+      pos = p.search(classNameRe)
+      sel += '.' + (pos<0 ? localize(p) : localize(p.substr(0,pos)) + p.substr(pos))
+    }
+    return sel
   }
 
   var mapClass = function(str) {
