@@ -140,6 +140,9 @@ describe('Test plugin selector localize', function() {
 
     var ret = loc('.选择器1 .选择器2 .!选择器3', {}, result)
     expect(ret).equal('.选择器1_space_ .选择器2_space_ .选择器3')
+
+    var ret = loc('body.𝌆𝍖abc .𝌆𝍖', {}, result)
+    expect(ret).equal('body.𝌆𝍖abc_space_ .𝌆𝍖_space_')
   })
 
   it('should work right with string and bracket', function() {
