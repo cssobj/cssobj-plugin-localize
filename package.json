@@ -5,6 +5,13 @@
   "main": "dist/cssobj-plugin-localize.cjs.js",
   "browser": "dist/cssobj-plugin-localize.iife.js",
   "jsnext:main": "dist/cssobj-plugin-localize.es.js",
+  "files": [
+    "dist",
+    "docs",
+    "*.md",
+    "*.ts",
+    "*.json"
+  ],
   "scripts": {
     "test": "npm run build && istanbul cover _mocha",
     "report": "cd dist && gzip < cssobj-plugin-localize.min.js > cssobj-plugin-localize.min.gz && ls -lh && rm -f *.gz",
