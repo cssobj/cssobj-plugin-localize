@@ -1,10 +1,10 @@
 {
   "name": "cssobj-plugin-localize",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "Localize class name for cssobj",
   "main": "dist/cssobj-plugin-localize.cjs.js",
-  "browser": "dist/cssobj-plugin-localize.iife.js",
-  "jsnext:main": "dist/cssobj-plugin-localize.es.js",
+  "browser": "dist/cssobj-plugin-localize.umd.js",
+  "module": "dist/cssobj-plugin-localize.es.js",
   "files": [
     "dist",
     "docs",
@@ -33,9 +33,9 @@
   },
   "homepage": "https://github.com/cssobj/cssobj-plugin-localize#readme",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^2.5.3",
-    "gulp": "^3.9.1",
-    "gulp-bump": "^2.2.0"
+    "chai": "*",
+    "mocha": "*",
+    "gulp": "*",
+    "gulp-bump": "*"
   }
 }

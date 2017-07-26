@@ -1,4 +1,8 @@
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define('cssobj_plugin_localize', factory) :
+	(global.cssobj_plugin_localize = factory());
+}(this, (function () { 'use strict';
 
 // helper functions for cssobj
 
@@ -122,4 +126,6 @@ function cssobj_plugin_selector_localize(option) {
   }
 }
 
-module.exports = cssobj_plugin_selector_localize;
+return cssobj_plugin_selector_localize;
+
+})));

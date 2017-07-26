@@ -6,9 +6,7 @@ var cssobj_plugin_localize = (function () {
 // check n is numeric, or string of numeric
 
 
-function own(o, k) {
-  return {}.hasOwnProperty.call(o, k)
-}
+
 
 // set default option (not deeply)
 
@@ -35,11 +33,7 @@ var random = (function () {
 
 
 // ensure obj[k] as array, then push v into it
-function arrayKV (obj, k, v, reverse, unique) {
-  obj[k] = k in obj ? [].concat(obj[k]) : [];
-  if(unique && obj[k].indexOf(v)>-1) return
-  reverse ? obj[k].unshift(v) : obj[k].push(v);
-}
+
 
 // replace find in str, with rep function result
 
