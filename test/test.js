@@ -80,6 +80,10 @@ describe('Test plugin selector localize', function() {
     expect(ret).match(/body ._custom_nav .item_space_/)
 
     expect(result.mapSel('.nav.item')).equal('._custom_nav.item_space_')
+    expect(result.mapSel('div')).equal('div')
+    expect(result.mapSel()).equal(undefined)
+    expect(result.mapSel(null)).equal(null)
+    expect(result.mapSel({})).deep.equal({})
 
   })
 
@@ -199,6 +203,10 @@ describe('Test plugin selector localize', function() {
 
     // global will generate 2 space, have to with .class
     expect(result.mapClass('.!item.!nav abc')).equal(' item nav abc_space_')
+
+    expect(result.mapClass()).equal(undefined)
+    expect(result.mapClass(null)).equal(null)
+    expect(result.mapClass({})).deep.equal({})
 
   })
 

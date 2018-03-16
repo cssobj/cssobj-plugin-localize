@@ -26,6 +26,12 @@ var random = (function () {
   }
 })();
 
+function isString(value) {
+  return typeof value === 'string'
+}
+
+// console.log(isEmpty([]), isEmpty(), isEmpty(null), isEmpty(''), isEmpty({}), isEmpty(23))
+
 // extend obj from source, if it's no key in obj, create one
 
 
@@ -85,6 +91,7 @@ function cssobj_plugin_selector_localize(option) {
   };
 
   var parseSel = function(str) {
+    if(!isString(str)) return str
     var part = splitSelector(str, '.');
     var sel=part[0];
     for(var i = 1, p, pos, len = part.length; i < len; i++) {
@@ -100,7 +107,9 @@ function cssobj_plugin_selector_localize(option) {
   };
 
   var mapClass = function(str) {
-    return parseSel(str.replace(/\s+\.?/g, '.').replace(/^([^:\s.])/i, '.$1')).replace(/\./g, ' ')
+    return isString(str)
+      ? parseSel(str.replace(/\s+\.?/g, '.').replace(/^([^:\s.])/i, '.$1')).replace(/\./g, ' ')
+      : str
   };
 
   return {
