@@ -186,23 +186,23 @@ describe('Test plugin selector localize', function() {
     var ret = loc('body .nav .item', {}, result)
     expect(ret).equal('body .nav_space_ .item_space_')
 
-    expect(result.mapClass('item nav')).equal(' item_space_ nav_space_')
+    expect(result.mapClass('item nav')).equal('item_space_ nav_space_')
 
     // also accept with .class
-    expect(result.mapClass('.item.nav')).equal(' item_space_ nav_space_')
-    expect(result.mapClass('.item .nav')).equal(' item_space_ nav_space_')
-    expect(result.mapClass(' .item .nav')).equal(' item_space_ nav_space_')
+    expect(result.mapClass('.item.nav')).equal('item_space_ nav_space_')
+    expect(result.mapClass('.item .nav')).equal('item_space_ nav_space_')
+    expect(result.mapClass(' .item .nav')).equal('item_space_ nav_space_')
 
     // multiple space in end will into 1
-    expect(result.mapClass('  item   nav     ')).equal(' item_space_ nav_space_ ')
+    expect(result.mapClass('  item   nav     ')).equal('item_space_ nav_space_')
     // with ! escape
-    expect(result.mapClass('  item   !nav     ')).equal(' item_space_ nav ')
-    expect(result.mapClass('  item')).equal(' item_space_')
-    expect(result.mapClass('item')).equal(' item_space_')
-    expect(result.mapClass('item ')).equal(' item_space_ ')
+    expect(result.mapClass('  item   !nav     ')).equal('item_space_ nav')
+    expect(result.mapClass('  item')).equal('item_space_')
+    expect(result.mapClass('item')).equal('item_space_')
+    expect(result.mapClass('item ')).equal('item_space_')
 
     // global will generate 2 space, have to with .class
-    expect(result.mapClass('.!item.!nav abc')).equal(' item nav abc_space_')
+    expect(result.mapClass('.!item.!nav abc')).equal('item nav abc_space_')
 
     expect(result.mapClass()).equal(undefined)
     expect(result.mapClass(null)).equal(null)

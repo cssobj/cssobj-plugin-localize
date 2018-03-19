@@ -40,7 +40,7 @@ export default function cssobj_plugin_selector_localize(option) {
 
   var mapClass = function(str) {
     return isString(str)
-      ? parseSel(str.replace(/\s+\.?/g, '.').replace(/^([^:\s.])/i, '.$1')).replace(/\./g, ' ')
+      ? parseSel(str.replace(/\s+\.?/g, '.').replace(/^([^:\s.])/i, '.$1')).replace(/\./g, ' ').trim()
       : str
   }
 

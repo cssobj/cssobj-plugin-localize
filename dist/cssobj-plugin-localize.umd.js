@@ -6,23 +6,6 @@
 
 // helper functions for cssobj
 
-// check n is numeric, or string of numeric
-
-
-
-
-// set default option (not deeply)
-
-
-// convert js prop into css prop (dashified)
-
-
-// capitalize str
-
-
-// repeat str for num times
-
-
 // random string, should used across all cssobj plugins
 var random = (function () {
   var count = 0;
@@ -35,23 +18,6 @@ var random = (function () {
 function isString(value) {
   return typeof value === 'string'
 }
-
-// console.log(isEmpty([]), isEmpty(), isEmpty(null), isEmpty(''), isEmpty({}), isEmpty(23))
-
-// extend obj from source, if it's no key in obj, create one
-
-
-// ensure obj[k] as array, then push v into it
-
-
-// replace find in str, with rep function result
-
-
-// get parents array from node (when it's passed the test)
-
-
-// split selector with comma, aware of css attributes
-
 
 // split selector with splitter, aware of css attributes
 function splitSelector (sel, splitter) {
@@ -68,11 +34,6 @@ function splitSelector (sel, splitter) {
   }
   return d.concat(sel.substring(prev))
 }
-
-// split char aware of syntax
-
-
-// checking for valid css value
 
 // cssobj plugin
 
@@ -114,7 +75,7 @@ function cssobj_plugin_selector_localize(option) {
 
   var mapClass = function(str) {
     return isString(str)
-      ? parseSel(str.replace(/\s+\.?/g, '.').replace(/^([^:\s.])/i, '.$1')).replace(/\./g, ' ')
+      ? parseSel(str.replace(/\s+\.?/g, '.').replace(/^([^:\s.])/i, '.$1')).replace(/\./g, ' ').trim()
       : str
   };
 

@@ -56,7 +56,9 @@ Replace all seperated word by localized version. (**without dot**)
 
 The classList can be `'nav item'`, or `'.nav .item'` form, all <kbd>.</kbd> will be replaced by space.
 
-##### Above 2 method both can accept `:global(.class1 .class2)` and `.!class1 .!class2` escaped for global space.
+The returned class string is `.trim()`ed, you need polyfill this method if you want support IE < 9.
+
+##### Above 2 method both can accept `.!class1 .!class2` escaped for global space.
 
 ## Usage
 
@@ -81,20 +83,9 @@ ret.mapClass('nav item')  // === _1hisnf23_nav _1hisnf23_item
 
 #### - Global
 
-There's 2 way to make class **Global**
+There's a way to make class **Global**
 
-##### 1. :global(classNames)
-
-Add **:global()** to wrap class names, to make them global.
-
-``` javascript
-var ret = cssobj({'body :global(.nav .item) .login': {color: 'red'}}, {
-  plugins:[  localize() ]
-})
-// css is => body .nav .item ._1hisnf23_login {color: red;}
-```
-
-##### 2. .!className
+##### - .!className
 
 Just add **!** in front of class name, if you want it global.
 
@@ -136,7 +127,7 @@ var ret = cssobj({'body .nav .item .login': {color: 'red'}}, {
 })
 
 ret.mapSel('.nav .item .!pushRight')  // === ._abc_ ._space_item .pushRight
-ret.mapSel(':global(.nav .item) .pushRight')  // === .nav .item ._space_pushRight
+ret.mapSel('.!nav .!item .pushRight')  // === .nav .item ._space_pushRight
 ret.mapClass('item nav !pushRight')  // ===  _space_item _abc_ pushRight
 ```
 

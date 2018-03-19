@@ -1,6 +1,6 @@
 {
   "name": "cssobj-plugin-localize",
-  "version": "3.2.4",
+  "version": "3.3.0",
   "description": "Localize class name for cssobj",
   "main": "dist/cssobj-plugin-localize.cjs.js",
   "browser": "dist/cssobj-plugin-localize.umd.js",
