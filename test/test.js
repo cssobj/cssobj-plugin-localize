@@ -210,4 +210,13 @@ describe('Test plugin selector localize', function() {
 
   })
 
+  it('should not throw with empty cssobj', ()=>{
+    var loc = lib({space:'_space_'})
+    var result = {}
+
+    loc.post(result)
+    expect(typeof result.mapClass).equal('function')
+
+  })
+
 })
