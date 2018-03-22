@@ -24,7 +24,7 @@ export default function cssobj_plugin_selector_localize(option) {
 
   var parseSel = function(str) {
     if(!isString(str)) return str
-    var part = splitSelector(str, '.')
+    var part = splitSelector(str, '.', true)
     var sel=part[0]
     for(var i = 1, p, pos, len = part.length; i < len; i++) {
       p = part[i]

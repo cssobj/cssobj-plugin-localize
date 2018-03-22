@@ -65,7 +65,7 @@ describe('Test plugin selector localize', function() {
     expect(ret).match(/body .nav_space_ .item_space_/)
 
     expect(result.mapSel('.nav')).equal('.nav_space_')
-    expect(result.mapSel('.nav a[href=abc.html]')).equal('.nav_space_ a[href=abc.html]')
+    expect(result.mapSel('.nav a[href="abc.html"]')).equal('.nav_space_ a[href="abc.html"]')
 
     expect(result.mapSel('.item')).equal('.item_space_')
 
@@ -124,7 +124,7 @@ describe('Test plugin selector localize', function() {
 
     /* since 2.1.0 below will not supported */
     // expect(ret).equal('@support (prefix=(._space_abc)), [xyz=._space_abc], url=(._space_abc)')
-    expect(ret).equal('@support (prefix=(.abc)), [xyz=.abc], url=(.abc)')
+    expect(ret).equal('@support (prefix=(.abc_space_)), [xyz=.abc_space_], url=(.abc_space_)')
 
   })
 
@@ -156,7 +156,7 @@ describe('Test plugin selector localize', function() {
     var ret = loc('.nav a[title=".sdf].abc .!def"]', {}, result)
     expect(ret).equal('.nav_space_ a[title=".sdf].abc .!def"]')
 
-    expect(result.mapSel('.item[.!xyz.abc.def]')).equal('.item_space_[.!xyz.abc.def]')
+    expect(result.mapSel('.item[.!xyz.abc.def]')).equal('.item_space_[.xyz.abc_space_.def_space_]')
   })
 
   it('should work right with ! symbol and localNames', function() {
@@ -216,6 +216,16 @@ describe('Test plugin selector localize', function() {
 
     loc.post(result)
     expect(typeof result.mapClass).equal('function')
+
+  })
+
+  
+  it('should mapClass within ()', ()=>{
+    var loc = lib({space:'_space_'}).selector
+    var result = {}
+
+    var ret = loc(`.a:not(.b,.c),div[x=".a,a\\"b,.b"],p`, {}, result)
+    expect(ret).equal('.a_space_:not(.b_space_,.c_space_),div[x=".a,a\\"b,.b"],p')
 
   })
 

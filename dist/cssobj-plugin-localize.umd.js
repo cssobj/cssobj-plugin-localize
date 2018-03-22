@@ -20,16 +20,19 @@ function isString(value) {
 }
 
 // split selector with splitter, aware of css attributes
-function splitSelector (sel, splitter) {
+function splitSelector (sel, splitter, inBracket) {
   if (sel.indexOf(splitter) < 0) return [sel]
   for (var c, i = 0, n = 0, instr = '', prev = 0, d = []; c = sel.charAt(i); i++) {
     if (instr) {
-      if (c == instr) instr = '';
+      if (c == instr && sel.charAt(i-1)!='\\') instr = '';
       continue
     }
     if (c == '"' || c == '\'') instr = c;
-    if (c == '(' || c == '[') n++;
-    if (c == ')' || c == ']') n--;
+    /* istanbul ignore if  */
+    if(!inBracket){
+      if (c == '(' || c == '[') n++;
+      if (c == ')' || c == ']') n--;
+    }
     if (!n && c == splitter) d.push(sel.substring(prev, i)), prev = i + 1;
   }
   return d.concat(sel.substring(prev))
@@ -59,7 +62,7 @@ function cssobj_plugin_selector_localize(option) {
 
   var parseSel = function(str) {
     if(!isString(str)) return str
-    var part = splitSelector(str, '.');
+    var part = splitSelector(str, '.', true);
     var sel=part[0];
     for(var i = 1, p, pos, len = part.length; i < len; i++) {
       p = part[i];
